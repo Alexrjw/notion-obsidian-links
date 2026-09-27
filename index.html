@@ -30,20 +30,22 @@
       background: #7c3aed;
       color: white;
     }
-    code {
-      word-break: break-word;
-      font-size: .9rem;
-    }
-    .muted { opacity: .7; font-size: .92rem; }
+    .muted { opacity: .72; font-size: .92rem; }
+    #fallback { display: none; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>📖 Abrir en Obsidian</h1>
-    <p id="subjectText">Pulsa el botón para abrir tus apuntes.</p>
-    <a id="openButton" class="button" href="#">Abrir en Obsidian</a>
+    <h1>📖 Abriendo Obsidian…</h1>
+    <p id="subjectText">Intentando abrir tus apuntes automáticamente.</p>
+
+    <div id="fallback">
+      <p>Si Obsidian no se ha abierto, pulsa aquí:</p>
+      <a id="openButton" class="button" href="#">Abrir en Obsidian</a>
+    </div>
+
     <p class="muted">
-      El navegador necesita un clic tuyo para permitir el protocolo <code>obsidian://</code>.
+      Algunos navegadores bloquean la apertura automática de aplicaciones externas.
     </p>
   </div>
 
@@ -67,8 +69,16 @@
       );
 
     document.getElementById("subjectText").textContent =
-      "Abrir " + subject + " en tu vault «Alejandro vault».";
+      "Intentando abrir " + subject + " en Obsidian…";
     document.getElementById("openButton").href = uri;
+
+    // Intento automático al cargar la página.
+    window.location.href = uri;
+
+    // Si el navegador lo bloquea, mostramos un botón manual.
+    setTimeout(() => {
+      document.getElementById("fallback").style.display = "block";
+    }, 1200);
   </script>
 </body>
 </html>
