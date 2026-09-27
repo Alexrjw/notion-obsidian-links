@@ -20,32 +20,27 @@
       box-shadow: 0 8px 30px rgba(0,0,0,.06);
     }
     h1 { margin-top: 0; }
-    a.button {
-      display: inline-block;
+    button {
       margin-top: 12px;
       padding: 12px 18px;
+      border: 0;
       border-radius: 10px;
-      text-decoration: none;
+      font: inherit;
       font-weight: 700;
+      cursor: pointer;
       background: #7c3aed;
       color: white;
     }
     .muted { opacity: .72; font-size: .92rem; }
-    #fallback { display: none; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>📖 Abriendo Obsidian…</h1>
-    <p id="subjectText">Intentando abrir tus apuntes automáticamente.</p>
-
-    <div id="fallback">
-      <p>Si Obsidian no se ha abierto, pulsa aquí:</p>
-      <a id="openButton" class="button" href="#">Abrir en Obsidian</a>
-    </div>
-
+    <h1>📖 Abrir en Obsidian</h1>
+    <p id="subjectText"></p>
+    <button id="openButton">Abrir en Obsidian</button>
     <p class="muted">
-      Algunos navegadores bloquean la apertura automática de aplicaciones externas.
+      Después de abrir Obsidian, esta pestaña intentará cerrarse automáticamente.
     </p>
   </div>
 
@@ -69,16 +64,15 @@
       );
 
     document.getElementById("subjectText").textContent =
-      "Intentando abrir " + subject + " en Obsidian…";
-    document.getElementById("openButton").href = uri;
+      "Abrir " + subject + " en tu vault «Alejandro vault».";
 
-    // Intento automático al cargar la página.
-    window.location.href = uri;
+    document.getElementById("openButton").addEventListener("click", () => {
+      window.location.href = uri;
 
-    // Si el navegador lo bloquea, mostramos un botón manual.
-    setTimeout(() => {
-      document.getElementById("fallback").style.display = "block";
-    }, 1200);
+      setTimeout(() => {
+        window.close();
+      }, 700);
+    });
   </script>
 </body>
 </html>
